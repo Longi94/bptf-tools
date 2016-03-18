@@ -1,3 +1,5 @@
+package com.tlongdev;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -39,7 +41,7 @@ public class Main {
         String itemsJsonStr;
 
         try {
-            String urlString = "http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=AA4BE494541ACA43379ADD02957B9F0E&language=en";
+            String urlString = String.format("http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=%s&language=en", args[0]);
             URL url = new URL(urlString);
             InputStream inputStream = url.openStream();
 
