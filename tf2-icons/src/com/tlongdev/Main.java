@@ -12,29 +12,6 @@ import java.nio.charset.StandardCharsets;
 
 
 public class Main {
-    // ===========================================================
-    // Constants
-    // ===========================================================
-
-    // ===========================================================
-    // Fields
-    // ===========================================================
-
-    // ===========================================================
-    // Constructors
-    // ===========================================================
-
-    // ===========================================================
-    // Getter & Setter
-    // ===========================================================
-
-    // ===========================================================
-    // Methods for/from SuperClass/Interfaces
-    // ===========================================================
-
-    // ===========================================================
-    // Methods
-    // ===========================================================
 
     public static void main(String[] args) {
         BufferedReader reader = null;
@@ -64,8 +41,6 @@ public class Main {
 
             File file = new File("small/");
             file.mkdirs();
-            file = new File("large/");
-            file.mkdirs();
 
             for (Object item : items) {
                 JSONObject currentItem = (JSONObject) item;
@@ -75,13 +50,7 @@ public class Main {
 
                 System.out.println("Saving " + "" + defindex + ".png...");
                 String imageUrl = (String) currentItem.get("image_url");
-                downloadIcon(imageUrl, defindex, false);
-                convertToWebp("./small/" + defindex + ".png", "./small/" + defindex + ".webp");
-
-                System.out.println("Saving large " + "" + defindex + ".png...");
-                String largeImageUrl = (String) currentItem.get("image_url_large");
-                downloadIcon(largeImageUrl, defindex, true);
-                convertToWebp("./large/" + defindex + ".png", "./large/" + defindex + ".webp");
+                downloadIcon(imageUrl, defindex);
             }
 
         } catch (IOException | ParseException e) {
@@ -99,9 +68,9 @@ public class Main {
         System.out.println("Operation completed successfully.");
     }
 
-    private static void downloadIcon(String url, long defindex, boolean large) throws IOException {
+    private static void downloadIcon(String url, long defindex) throws IOException {
 
-        String folder = large ? "large" : "small";
+        String folder = "small";
         InputStream is = null;
         OutputStream os = null;
 
@@ -131,12 +100,4 @@ public class Main {
             }
         }
     }
-
-    private static void convertToWebp(String in, String out) throws IOException {
-        Runtime.getRuntime().exec(new String[]{"cwebp", "-q", "90", in, "-o", out});
-    }
-
-    // ===========================================================
-    // Inner and Anonymous Classes
-    // ===========================================================
 }
