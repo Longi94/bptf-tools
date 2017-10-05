@@ -1,4 +1,4 @@
-package com.tlongdev;
+package in.dragonbra;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,7 +11,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 
-public class Main {
+public class Tf2Icons {
 
     public static void main(String[] args) {
         BufferedReader reader = null;
@@ -40,6 +40,7 @@ public class Main {
             JSONArray items = (JSONArray) result.get("items");
 
             File file = new File("small/");
+            //noinspection ResultOfMethodCallIgnored
             file.mkdirs();
 
             for (Object item : items) {

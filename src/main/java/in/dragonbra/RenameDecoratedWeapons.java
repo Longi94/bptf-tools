@@ -1,13 +1,16 @@
-package com.tlongdev;
+package in.dragonbra;
+
+import in.dragonbra.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
-public class Main {
-
-    public static boolean recursive = false;
+public class RenameDecoratedWeapons {
 
     public static void main(String[] args) throws IOException {
+        boolean recursive = false;
+
         for (String arg : args) {
             switch (arg) {
                 case "-r":
@@ -20,7 +23,14 @@ public class Main {
             }
         }
 
-        walk(System.getProperty("user.dir"));
+        FileUtils.walk(System.getProperty("user.dir"), recursive,
+                file -> {
+                    try {
+                        renameFile(file.getAbsolutePath());
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                }, "png");
     }
 
     private static void renameFile(String file) throws IOException {
@@ -52,40 +62,5 @@ public class Main {
         } else {
             throw new IOException(newFile.toString() + " already exists...");
         }
-    }
-
-    public static void walk(String path) throws IOException {
-
-        File root = new File(path);
-        File[] list = root.listFiles();
-
-        if (list == null) return;
-
-        for (File file : list) {
-            if (file.isDirectory()) {
-                if (recursive) {
-                    walk(file.getAbsolutePath());
-                }
-            } else {
-                if (getExtension(file).equals("png")) {
-                    renameFile(file.getAbsolutePath());
-                }
-            }
-        }
-    }
-
-    public static String getExtension(File file) {
-
-        String extension = null;
-        String fileName = file.getName();
-
-        int i = fileName.lastIndexOf('.');
-        int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
-
-        if (i > p) {
-            extension = fileName.substring(i + 1);
-        }
-
-        return extension;
     }
 }
